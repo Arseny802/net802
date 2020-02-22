@@ -4,7 +4,6 @@
 # Cmake
 bin/*
 cmake*
-*cmake
 
 # Prerequisites
 *.d
