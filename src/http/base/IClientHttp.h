@@ -8,6 +8,7 @@
 #include <string_view>
 #include "HttpResultCodes.h"
 
+namespace http::base {
 /// Interface
 class IClientHttp {
  public:
@@ -36,5 +37,6 @@ class IClientHttp {
   /// \return string with a protocol name.
   [[nodiscard]] virtual std::string GetSpecificProtocol() const noexcept = 0;
 };
+}
 
 #endif //NETWORK_MODULES_SRC_BASEHTTP_BASE_ICLIENTHTTP_H_

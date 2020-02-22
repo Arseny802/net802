@@ -5,16 +5,19 @@
 #ifndef HTTP_SUBMODULE_CLIENTHTTP_H
 #define HTTP_SUBMODULE_CLIENTHTTP_H
 
-#include "Base/BaseHttp.h"
+#include "base/BaseHttp.h"
 
-class ClientHttp : public BaseHttp {
-public:
-  ClientHttp();
-  ~ClientHttp() override;
-  HttpResultCodes Read(std::string_view url, std::string_view app) override;
+namespace http::clients {
+class BasicClientHttp : public Base::BaseHttp {
+ public:
+  BasicClientHttp();
+  ~BasicClientHttp() override;
+  Base::HttpResultCodes Read(std::string_view url) override;
+  Base::HttpResultCodes Read(std::string_view url, std::string_view app) override;
   [[nodiscard]] std::string_view GetProtocol() const noexcept override;
   [[nodiscard]] std::string_view GetProtocolVersion() const noexcept override;
   [[nodiscard]] std::string_view GetRequestType() const noexcept override;
 };
+}
 
 #endif //HTTP_SUBMODULE_CLIENTHTTP_H

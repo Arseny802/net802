@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     
     MoexReader moex;
 
-    moex.ReadSome();
+    moex.GetInfo();
 
     return 0;
 }

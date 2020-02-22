@@ -16,6 +16,7 @@ message("Including directory: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 include_directories(
         ${CMAKE_SOURCE_DIR}/BaseHttp
+        ${CMAKE_SOURCE_DIR}/BaseHttp/Base
         ${CMAKE_SOURCE_DIR}
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC base_http)

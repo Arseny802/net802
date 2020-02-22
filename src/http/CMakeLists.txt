@@ -2,11 +2,19 @@ set(PROJECT_NAME base_http)
 message(STATUS "Building ${PROJECT_NAME} started.")
 project(${PROJECT_NAME})
 
-file(GLOB headers *.h Base/*.h)
-file(GLOB sources *.cpp Base/*.cpp)
-add_library(${PROJECT_NAME} STATIC
-        ${headers}
-        ${sources} Base/ErrorCode.h Base/IClientHttp.h)
+set(project_directories
+        .
+        tls
+        base
+        clients)
+foreach (current_dir ${project_directories})
+    file(GLOB_RECURSE inner_headers ${current_dir}/*.h)
+    file(GLOB_RECURSE inner_sources ${current_dir}/*.cpp)
+    message("Adding headers from ${current_dir}: ${inner_headers}")
+    message("Adding sources from ${current_dir}: ${inner_sources}")
+    set(files ${files} ${inner_headers} ${inner_sources})
+endforeach ()
+add_library(${PROJECT_NAME} STATIC ${files})
 message("Adding headers: ${headers}")
 message("Adding sources: ${sources}")
 
