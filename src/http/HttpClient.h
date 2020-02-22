@@ -28,9 +28,9 @@ class HttpClient {
   /// \return HTTPS / HTTP
   [[nodiscard]] bool UsingTls() const noexcept;
  protected:
-  [[nodiscard]] bool ParseAnswer(Base::HttpResultCodes code) const noexcept;
+  [[nodiscard]] bool ParseAnswer(base::HttpResultCodes code) const noexcept;
  private:
-  std::shared_ptr<Base::IClientHttp> _reader;
+  std::shared_ptr<base::IClientHttp> _reader;
   bool _tls;
 };
 }

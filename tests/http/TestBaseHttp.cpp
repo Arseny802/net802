@@ -3,7 +3,8 @@
 //
 #include "gtest/gtest.h"
 #include <iostream>
-#include <http/Base/BaseHttp.h>
+#include <http/base/HttpResultCodes.h>
+#include <http/base/BaseHttp.h>
 
 namespace tests::http {
 class TestBaseHttp : public ::testing::Test {
@@ -13,17 +14,17 @@ class TestBaseHttp : public ::testing::Test {
   void TearDown() override {
   }
 
-  Http::Base::BaseHttp *base_http_{};
+  ::http::base::BaseHttp *base_http_{};
 };
 
 TEST_F(TestBaseHttp, null) {
-  EXPECT_EQ(Http::Base::HttpResultCodes::InvalidRequest_host, base_http_->Read(""));
-  EXPECT_EQ(Http::Base::HttpResultCodes::InvalidRequest_host, base_http_->Read("", ""));
+  EXPECT_EQ(::http::base::HttpResultCodes::InvalidRequest_host, base_http_->Read(""));
+  EXPECT_EQ(::http::base::HttpResultCodes::InvalidRequest_host, base_http_->Read("", ""));
 }
 
 TEST_F(TestBaseHttp, google) {
-  EXPECT_EQ(Http::Base::HttpResultCodes::Ok, base_http_->Read("google.com"));
-  EXPECT_EQ(Http::Base::HttpResultCodes::Ok, base_http_->Read("google.com", ""));
+  EXPECT_EQ(::http::base::HttpResultCodes::Ok, base_http_->Read("google.com"));
+  EXPECT_EQ(::http::base::HttpResultCodes::Ok, base_http_->Read("google.com", ""));
 }
 
 }

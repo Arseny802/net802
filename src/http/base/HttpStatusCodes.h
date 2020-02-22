@@ -6,7 +6,7 @@
 #define HTTP_READER_HTTPSTATUSCODES_H
 
 namespace http::base {
-enum HttpStatusCodes : uint16_t {
+enum HttpStatusCodes : int {
   Success = 200,
   Moved = 301
 };

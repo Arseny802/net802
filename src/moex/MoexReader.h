@@ -5,9 +5,9 @@
 #ifndef HTTP_READER_MOEXREADER_H
 #define HTTP_READER_MOEXREADER_H
 
-#include <Base/IClientHttp.h>
+#include <base/IClientHttp.h>
 #include <memory>
-#include <src/BaseHttp/HttpClient.h>
+#include <HttpClient.h>
 
 class MoexReader {
  public:
@@ -16,7 +16,7 @@ class MoexReader {
 
   bool GetInfo();
  private:
-  Http::HttpClient _reader;
+  http::HttpClient _reader;
 };
 
 #endif //HTTP_READER_MOEXREADER_H

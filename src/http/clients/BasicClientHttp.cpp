@@ -15,11 +15,11 @@ BasicClientHttp::BasicClientHttp() : BaseHttp() {
 
 BasicClientHttp::~BasicClientHttp() = default;
 
-Base::HttpResultCodes BasicClientHttp::Read(std::string_view url) {
+base::HttpResultCodes BasicClientHttp::Read(std::string_view url) {
   return StartReadingProcess(url, std::string_view());
 }
 
-Base::HttpResultCodes BasicClientHttp::Read(std::string_view url, std::string_view app) {
+base::HttpResultCodes BasicClientHttp::Read(std::string_view url, std::string_view app) {
   return StartReadingProcess(url, app);
 }
 

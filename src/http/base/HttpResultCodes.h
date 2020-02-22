@@ -6,7 +6,7 @@
 #define HTTP_READER_HTTPRESULTCODES_H
 
 namespace http::base {
-enum HttpResultCodes : uint16_t {
+enum HttpResultCodes : int {
   Ok = 0,
   InvalidRequest_host = 1,
   InvalidResponse = 2,

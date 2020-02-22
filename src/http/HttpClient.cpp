@@ -17,9 +17,9 @@ HttpClient::~HttpClient() = default;
 void HttpClient::SetTls(bool tls) {
   _tls = tls;
   if (_tls) {
-	_reader = std::make_shared<Http::Clients::BasicClientHttps>();
+    _reader = std::make_shared<http::clients::BasicClientHttps>();
   } else {
-	_reader = std::make_shared<Http::Clients::BasicClientHttp>();
+    _reader = std::make_shared<http::clients::BasicClientHttp>();
   }
 }
 
@@ -28,25 +28,25 @@ bool HttpClient::UsingTls() const noexcept {
 }
 
 bool HttpClient::Read(std::string_view url, std::string_view app) {
-  Base::HttpResultCodes result = _reader->Read(url, app);
-  if (result == Base::HttpResultCodes::MovedWithNoLocation && !UsingTls()) {
+  base::HttpResultCodes result = _reader->Read(url, app);
+  if (result == base::HttpResultCodes::MovedWithNoLocation && !UsingTls()) {
 	SetTls();
 	return ParseAnswer(_reader->Read(url, app));
-  } else if (result == Base::HttpResultCodes::Ok) {
+  } else if (result == base::HttpResultCodes::Ok) {
 	return true;
   }
   return false;
 }
 
-bool HttpClient::ParseAnswer(Base::HttpResultCodes code) const noexcept {
+bool HttpClient::ParseAnswer(base::HttpResultCodes code) const noexcept {
   switch (code) {
-	case Base::HttpResultCodes::Ok: return true;
-	case Base::HttpResultCodes::MovedWithNoLocation:
-	case Base::HttpResultCodes::InvalidRequest_host:
-	case Base::HttpResultCodes::ProcessingError:
-	case Base::HttpResultCodes::ProcessingException:
-	case Base::HttpResultCodes::ResponseError:
-	case Base::HttpResultCodes::InvalidResponse:
+	case base::HttpResultCodes::Ok: return true;
+	case base::HttpResultCodes::MovedWithNoLocation:
+	case base::HttpResultCodes::InvalidRequest_host:
+	case base::HttpResultCodes::ProcessingError:
+	case base::HttpResultCodes::ProcessingException:
+	case base::HttpResultCodes::ResponseError:
+	case base::HttpResultCodes::InvalidResponse:
 	default: return false;
   }
 }

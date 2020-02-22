@@ -8,12 +8,12 @@
 #include "base/BaseHttp.h"
 
 namespace http::clients {
-class BasicClientHttps : public Base::BaseHttp {
+class BasicClientHttps : public base::BaseHttp {
  public:
   BasicClientHttps();
   ~BasicClientHttps() override;
-  Base::HttpResultCodes Read(std::string_view url) override;
-  Base::HttpResultCodes Read(std::string_view url, std::string_view app) override;
+  base::HttpResultCodes Read(std::string_view url) override;
+  base::HttpResultCodes Read(std::string_view url, std::string_view app) override;
   [[nodiscard]] std::string_view GetProtocol() const noexcept override;
   [[nodiscard]] std::string_view GetProtocolVersion() const noexcept override;
   [[nodiscard]] std::string_view GetRequestType() const noexcept override;
