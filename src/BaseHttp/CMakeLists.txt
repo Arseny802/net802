@@ -1,0 +1,40 @@
+set(PROJECT_NAME base_http)
+message(STATUS "Building ${PROJECT_NAME} started.")
+project(${PROJECT_NAME})
+
+file(GLOB headers *.h Base/*.h)
+file(GLOB sources *.cpp Base/*.cpp)
+add_library(${PROJECT_NAME} SHARED
+        ${headers}
+        ${sources})
+message("Adding headers: ${headers}")
+message("Adding sources: ${sources}")
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+message("Including directory: ${CMAKE_CURRENT_SOURCE_DIR}")
+
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+FIND_PACKAGE(Boost REQUIRED COMPONENTS system program_options thread)
+include_directories(${Boost_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
+
+
+
+
+
+
+include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
+link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+add_dependencies(fmt ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${fmt})
+
+
+
+
+
+message("Including directory: ${Boost_INCLUDE_DIR}")
+message("Including libraries: ${Boost_LIBRARIES}")
+
+message(STATUS "Building ${PROJECT_NAME} finished.")
+message("")
