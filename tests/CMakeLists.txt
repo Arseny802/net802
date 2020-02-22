@@ -4,11 +4,13 @@ project(${PROJECT_NAME})
 
 include_directories(${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/src)
 
-file(GLOB sources *.cc)
-add_executable(${PROJECT_NAME} ${sources} TestRun.cc)
+file(GLOB sources *.cpp)
+add_executable(${PROJECT_NAME}
+        ${sources}
+        ../include/network_modules.h)
 
-find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
+#find_package(GTest REQUIRED)
+#find_package(Threads REQUIRED)
 
 set(libs
         ${CMAKE_PROJECT_NAME}

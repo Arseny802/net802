@@ -10,18 +10,18 @@ ClientHttps::ClientHttps() : BaseHttp() {
 
 ClientHttps::~ClientHttps() = default;
 
-void ClientHttps::Read(std::string_view url, std::string_view app) {
-  StartReadingProcess(url, app);
+HttpResultCodes ClientHttps::Read(std::string_view url, std::string_view app) {
+  return StartReadingProcess(url, app);
 }
 
-std::string_view ClientHttps::GetProtocol() const {
+std::string_view ClientHttps::GetProtocol() const noexcept {
   return "HTTPS";
 }
 
-std::string_view ClientHttps::GetProtocolVersion() const {
+std::string_view ClientHttps::GetProtocolVersion() const noexcept {
   return "1.0";
 }
 
-std::string_view ClientHttps::GetRequestType() const {
+std::string_view ClientHttps::GetRequestType() const noexcept {
   return "GET";
 }

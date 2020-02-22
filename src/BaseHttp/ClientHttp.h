@@ -10,12 +10,11 @@
 class ClientHttp : public BaseHttp {
 public:
   ClientHttp();
-  void Read(std::string_view url, std::string_view app) override;
-  [[nodiscard]] std::string_view GetProtocol() const override;
-  [[nodiscard]] std::string_view GetProtocolVersion() const override;
-  [[nodiscard]] std::string_view GetRequestType() const override;
-protected:
   ~ClientHttp() override;
+  HttpResultCodes Read(std::string_view url, std::string_view app) override;
+  [[nodiscard]] std::string_view GetProtocol() const noexcept override;
+  [[nodiscard]] std::string_view GetProtocolVersion() const noexcept override;
+  [[nodiscard]] std::string_view GetRequestType() const noexcept override;
 };
 
 #endif //HTTP_SUBMODULE_CLIENTHTTP_H

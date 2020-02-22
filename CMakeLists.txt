@@ -5,7 +5,7 @@ message("##########################")
 
 # base settings for cmake
 cmake_minimum_required(VERSION 3.3)
-set(PROJECT_TARGET_NAME http_submodule)
+set(PROJECT_TARGET_NAME network_modules)
 project(${PROJECT_TARGET_NAME} CXX C)
 
 # temporary global linking
@@ -51,7 +51,7 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
 
 message("")
 message("#########################")
-message("###### CUSTOM ARGS ######")
+message("###### CUSTOM ARGS ##s####")
 message("#########################")
 # Set default compile flags for GCC
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -68,26 +68,27 @@ message("###################################")
 message("######## EXTERNAL PROJECTS ########")
 message("###################################")
 
-set(EXTERNAL_INSTALL_LOCATION ${bin_dir}/external)
-message("Install location is ${EXTERNAL_INSTALL_LOCATION}")
-
-SET(fmt_path https://github.com/fmtlib/fmt.git)
-message("Adding fmt from ${fmt_path}")
+# Include fmt project for string formatting.
 set(fmt_path "${third_party_dir}/fmt")
+message("Loading fmt from '${fmt_path}'...")
+add_subdirectory(${fmt_path})
+include_directories(${fmt_path}/include)
+message("fmt loaded.")
 
-include(ExternalProject)
-find_package(Git REQUIRED)
-ExternalProject_Add(fmt
-        GIT_REPOSITORY ${fmt_path}
-        UPDATE_COMMAND ${GIT_EXECUTABLE} pull
-        SOURCE_DIR        "${fmt_path}/fmt_src"
-        BINARY_DIR        "${fmt_path}/fmt_build"
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND     ""
-        INSTALL_COMMAND   ""
-        TEST_COMMAND      ""
-        )
-include_directories(${fmt_path})
+# Include Google test project for unit tests.
+set(googletest_path "${third_party_dir}/googletest")
+message("Loading googletest from '${googletest_path}'...")
+add_subdirectory(${googletest_path})
+include_directories(${googletest_path}/googletest/include)
+message("googletest loaded.")
+
+# Include BOOST for ASIO & other.
+# # BOOST not available for Cmake now (22.02.20)!
+# set(boost_path "${third_party_dir}/boost")
+# message("Loading boost from '${boost_path}'...")
+# add_subdirectory(${boost_path})
+# include_directories(${boost_path}/include)
+# message("boost loaded.")
 
 message("")
 message("#############################")
@@ -106,11 +107,6 @@ set(PROJECT_TESTS ${CMAKE_PROJECT_NAME}_tests)
 add_test(tests/${PROJECT_TESTS} tests/${PROJECT_TESTS})
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
 add_dependencies(check ${PROJECT_TESTS})
-
-# if testing
-#if(BUILD_TESTING)
-#	add_test(FirstTest Test 1)
-#endif()
 
 # checking build type on platform
 message("")

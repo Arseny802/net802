@@ -10,35 +10,29 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
 #include "HttpResultCodes.h"
+#include "ErrorCode.h"
+#include "IClientHttp.h"
 
 using boost::asio::ip::tcp;
 
 /// Abstract class for HTTP(S) requests.
 /// Based on BOOST::ASIO system.
-class BaseHttp {
+class BaseHttp : public IClientHttp {
 public:
   /// Checks if passed string is valid URL.
   /// Doesn't grant that's a working URL!
   /// \param url - string to check
   /// \return valid or not
-  static bool IsUrl(std::string_view url);
-  ///
-  /// \param url
-  /// \param app
-  virtual HttpResultCodes Read(std::string_view url, std::string_view app) = 0;
-  /// Virtual getter for short protocol name (HTTP, HTTPS).
-  /// \return string with a protocol name.
-  [[nodiscard]] virtual std::string_view GetProtocol() const = 0;
-  /// Virtual getter protocol version (1.0, 2.0).
-  /// \return string with protocol version.
-  [[nodiscard]] virtual std::string_view GetProtocolVersion() const = 0;
-  /// Virtual getter for request type (POST, GET).
-  /// \return string with request type.
-  [[nodiscard]] virtual std::string_view GetRequestType() const = 0;
+  static bool IsUrl(std::string_view url) noexcept;
+  /// Base implementation of reading procedure.
+  /// Just calls similar function with 'app' arg.
+  /// \param url host to connect.
+  /// \return result code, contains error code.
+  HttpResultCodes Read(std::string_view url) override;
   /// Virtual getter for long protocol name (HTTP/1.0).
   /// Combines GetProtocol() and GetProtocolVersion().
   /// \return string with a protocol name.
-  [[nodiscard]] constexpr std::string_view GetSpecificProtocol() const;
+  [[nodiscard]] std::string GetSpecificProtocol() const noexcept override;
 protected:
   BaseHttp();
   virtual ~BaseHttp();
@@ -47,7 +41,7 @@ protected:
   /// \param url url to read
   /// \param app command, like "/app/request"
   /// \return Custom status code
-  HttpResultCodes StartReadingProcess(std::string_view url, std::string_view app = std::string());
+  HttpResultCodes StartReadingProcess(std::string_view url, std::string_view app);
   /// Form the request. We specify the "Connection: close" header so that
   /// the server will close the socket after transmitting the response.
   /// This will allow us to treat all data up until the EOF as the content.
@@ -55,10 +49,10 @@ protected:
   /// \param app Command, like "/app/request"
   /// \return Pointer to HTTP request in stream
   [[nodiscard]] virtual std::unique_ptr<boost::asio::streambuf>
-  GenerateRequest(const std::string &url, const std::string &app) const;
-private:
+  GenerateRequest(std::string_view url, std::string_view app) const;
   /// constant delimiter for requests and responses.
-  static const std::string kRequestDelimiter;
+  constexpr static std::string_view kRequestDelimiter = "\r\n";
+private:
   [[nodiscard]] tcp::socket Connect(std::string_view url) const;
 };
 

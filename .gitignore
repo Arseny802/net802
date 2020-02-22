@@ -5,6 +5,9 @@
 bin/*
 cmake*
 
+# Modules
+third-party/**
+
 # Prerequisites
 *.d
 

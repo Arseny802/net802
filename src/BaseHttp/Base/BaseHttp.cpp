@@ -6,7 +6,6 @@
 #include "HttpStatusCodes.h"
 
 #include <fmt/format.h>
-#include <fmt>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/asio/write.hpp>
@@ -14,11 +13,13 @@
 #include <boost/asio/read.hpp>
 #include <regex>
 
-const std::string BaseHttp::kRequestDelimiter = "\r\n";
-
 BaseHttp::BaseHttp() = default;
 
 BaseHttp::~BaseHttp() = default;
+
+HttpResultCodes BaseHttp::Read(std::string_view url) {
+  return Read(url, std::string());
+}
 
 HttpResultCodes BaseHttp::StartReadingProcess(std::string_view url, std::string_view app) {
 
@@ -30,13 +31,14 @@ HttpResultCodes BaseHttp::StartReadingProcess(std::string_view url, std::string_
 	tcp::socket socket = Connect(url.data());
 
 	// Send the request.
-	boost::asio::write(socket, *GenerateRequest(url.data(), app.data()));
+	const auto &request = GenerateRequest(url.data(), app.data());
+	boost::asio::write(socket, request.get());
 
 	// Read the response status line. The response streambuf will
 	// automatically grow to accommodate the entire line. The growth may be
 	// limited by passing a maximum size to the streambuf constructor.
 	boost::asio::streambuf response;
-	boost::asio::read_until(socket, response, kRequestDelimiter);
+	boost::asio::read_until(socket, response, kRequestDelimiter.data());
 
 	// Check that response is OK.
 	std::istream response_stream(&response);
@@ -81,7 +83,8 @@ HttpResultCodes BaseHttp::StartReadingProcess(std::string_view url, std::string_
 	}
 
 	// Read the response headers, which are terminated by a blank line.
-	boost::asio::read_until(socket, response, kRequestDelimiter + kRequestDelimiter);
+	boost::asio::read_until(socket, response,
+	                        fmt::format("{}{}", kRequestDelimiter, kRequestDelimiter));
 
 	// Process the response headers.
 	std::string header;
@@ -91,7 +94,10 @@ HttpResultCodes BaseHttp::StartReadingProcess(std::string_view url, std::string_
 	std::cout << std::endl;
 
 	// Write whatever content we already have to output.
-	if (response.size() > 0) std::cout << &response;
+	if (response.size() > 0) {
+	  std::cout << &response;
+	}
+
 
 	// Read until EOF, writing data to output as we go.
 	boost::system::error_code error;
@@ -100,6 +106,7 @@ HttpResultCodes BaseHttp::StartReadingProcess(std::string_view url, std::string_
 	  std::cout << &response;
 	}
 	if (error != boost::asio::error::eof) {
+	  std::cout << "Got " << error << " error on request." << std::endl;
 	  return HttpResultCodes::ProcessingError;
 	}
 	return HttpResultCodes::Ok;
@@ -128,7 +135,7 @@ tcp::socket BaseHttp::Connect(std::string_view url) const {
 }
 
 std::unique_ptr<boost::asio::streambuf>
-BaseHttp::GenerateRequest(const std::string &url, const std::string &app) const {
+BaseHttp::GenerateRequest(std::string_view url, std::string_view app) const {
   std::unique_ptr<boost::asio::streambuf> request;
   std::ostream request_stream(&(*request));
 
@@ -145,11 +152,11 @@ BaseHttp::GenerateRequest(const std::string &url, const std::string &app) const 
   return request;
 }
 
-constexpr std::string_view BaseHttp::GetSpecificProtocol() const {
-  return fmt::format(GetProtocol() + '/' + GetProtocolVersion());
+std::string BaseHttp::GetSpecificProtocol() const noexcept {
+  return fmt::format("{}/{}", GetProtocol(), GetProtocolVersion());
 }
 
-bool BaseHttp::IsUrl(std::string_view url) {
+bool BaseHttp::IsUrl(std::string_view url) noexcept {
   //boost::network::uri uri(url);
   //return std::regex_match (url, std::regex("^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$"));
   return !url.empty();

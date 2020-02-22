@@ -6,7 +6,7 @@
 #define HTTP_READER_MOEXREADER_H
 
 
-#include <Base/BaseHttp.h>
+#include <Base/IClientHttp.h>
 #include <memory>
 
 class MoexReader {
@@ -17,10 +17,10 @@ public:
     bool ReadSome();
     
     void SetTls(bool tls = true);
-    bool UsingTls() const;
+    bool UsingTls() const noexcept;
     
 private:
-	std::shared_ptr<BaseHttp> _reader;
+	std::shared_ptr<IClientHttp> _reader;
 	bool _tls;
 };
 

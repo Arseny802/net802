@@ -4,9 +4,9 @@ project(${PROJECT_NAME})
 
 file(GLOB headers *.h Base/*.h)
 file(GLOB sources *.cpp Base/*.cpp)
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} STATIC
         ${headers}
-        ${sources})
+        ${sources} Base/ErrorCode.h Base/IClientHttp.h)
 message("Adding headers: ${headers}")
 message("Adding sources: ${sources}")
 
@@ -19,22 +19,12 @@ FIND_PACKAGE(Boost REQUIRED COMPONENTS system program_options thread)
 include_directories(${Boost_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
 
-
-
-
-
-
-include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-add_dependencies(fmt ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${fmt})
-
-
-
-
+#add_dependencies(fmt ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} LINK_PRIVATE fmt)
 
 message("Including directory: ${Boost_INCLUDE_DIR}")
 message("Including libraries: ${Boost_LIBRARIES}")
+message("Including fmt as dependency")
 
 message(STATUS "Building ${PROJECT_NAME} finished.")
 message("")
