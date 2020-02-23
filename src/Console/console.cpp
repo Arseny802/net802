@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	    std::string url = argv[1];
 	    std::string app = argv[2];
     }
-    
+
     MoexReader moex;
 
     moex.ReadSome();

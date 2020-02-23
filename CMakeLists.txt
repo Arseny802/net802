@@ -75,6 +75,13 @@ add_subdirectory(${fmt_path})
 include_directories(${fmt_path}/include)
 message("fmt loaded.")
 
+# Include fmt project for string formatting.
+set(spdlog_path "${third_party_dir}/spdlog")
+message("Loading fmt from '${spdlog_path}'...")
+add_subdirectory(${spdlog_path})
+include_directories(${spdlog_path}/include)
+message("spdlog loaded.")
+
 # Include Google test project for unit tests.
 set(googletest_path "${third_party_dir}/googletest")
 message("Loading googletest from '${googletest_path}'...")

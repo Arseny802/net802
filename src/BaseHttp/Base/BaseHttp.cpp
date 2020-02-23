@@ -2,8 +2,8 @@
 // Created by arseny on 31/01/2020.
 //
 #include "BaseHttp.h"
-#include "HttpResultCodes.h"
-#include "HttpStatusCodes.h"
+#include "codes/HttpResultCodes.h"
+#include "codes/HttpStatusCodes.h"
 
 #include <fmt/format.h>
 #include <boost/asio/connect.hpp>

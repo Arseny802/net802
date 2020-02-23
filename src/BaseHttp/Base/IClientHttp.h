@@ -6,7 +6,7 @@
 #define NETWORK_MODULES_SRC_BASEHTTP_BASE_ICLIENTHTTP_H_
 
 #include <string_view>
-#include "HttpResultCodes.h"
+#include "src/http/codes/HttpResultCodes.h"
 
 /// Interface
 class IClientHttp {

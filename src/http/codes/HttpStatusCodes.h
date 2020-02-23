@@ -5,10 +5,11 @@
 #ifndef HTTP_READER_HTTPSTATUSCODES_H
 #define HTTP_READER_HTTPSTATUSCODES_H
 
-enum HttpStatusCodes : int
-{
-	Success = 200,
-	Moved = 301
+namespace http::codes {
+enum HttpStatusCodes : int {
+  Success = 200,
+  Moved = 301
 };
+}
 
 #endif //HTTP_READER_HTTPSTATUSCODES_H

@@ -7,8 +7,10 @@
 
 #include <boost/system/error_code.hpp>
 
+namespace http::codes {
 class ErrorCode : boost::system::error_code {
 
 };
+}
 
 #endif //NETWORK_MODULES_SRC_BASEHTTP_BASE_ERRORCODE_H_
