@@ -1,4 +1,4 @@
-set(PROJECT_NAME moex_reader)
+set(PROJECT_NAME ${SOLUTION_NAME}.moex)
 message(STATUS "Building ${PROJECT_NAME} started.")
 project(${PROJECT_NAME})
 
@@ -14,15 +14,11 @@ message("Adding sources: ${sources}")
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 message("Including directory: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-include_directories(
-        ${CMAKE_SOURCE_DIR}/BaseHttp
-        ${CMAKE_SOURCE_DIR}
-)
-target_link_libraries(${PROJECT_NAME} PUBLIC base_http)
+include_directories(${CMAKE_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${SOLUTION_NAME}.http)
 
-message("Including directory: ${CMAKE_SOURCE_DIR}/BaseHttp")
 message("Including directory: ${CMAKE_SOURCE_DIR}")
-message("Including libraries: base_http")
+message("Including libraries: ${SOLUTION_NAME}.http")
 
 message(STATUS "Building ${PROJECT_NAME} finished.")
 message("")

@@ -1,4 +1,4 @@
-set(PROJECT_NAME console)
+set(PROJECT_NAME ${SOLUTION_NAME}.console)
 message(STATUS "Building ${PROJECT_NAME}")
 project(${PROJECT_NAME})
 
@@ -15,6 +15,6 @@ include_directories(
 )
 message("Including directory: ${CMAKE_SOURCE_DIR}")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC moex_reader)
-message("Including library: moex_reader")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${SOLUTION_NAME}.moex)
+message("Including library: ${SOLUTION_NAME}.moex_reader")
 message("")

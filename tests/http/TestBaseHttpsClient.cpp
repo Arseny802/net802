@@ -20,13 +20,13 @@ class TestBaseHttpsClient : public ::testing::Test {
 };
 
 TEST_F(TestBaseHttpsClient, null) {
-  EXPECT_EQ(::http::base::HttpResultCodes::InvalidRequest_host, base_https_client_->Read(""));
-  EXPECT_EQ(::http::base::HttpResultCodes::InvalidRequest_host, base_https_client_->Read("", ""));
+  EXPECT_EQ(::http::codes::HttpResultCodes::InvalidRequest_host, base_https_client_->Read(""));
+  EXPECT_EQ(::http::codes::HttpResultCodes::InvalidRequest_host, base_https_client_->Read("", ""));
 }
 
 TEST_F(TestBaseHttpsClient, google) {
-  EXPECT_EQ(::http::base::HttpResultCodes::Ok, base_https_client_->Read("google.com"));
-  EXPECT_EQ(::http::base::HttpResultCodes::Ok, base_https_client_->Read("google.com", ""));
+  EXPECT_EQ(::http::codes::HttpResultCodes::Ok, base_https_client_->Read("google.com"));
+  EXPECT_EQ(::http::codes::HttpResultCodes::Ok, base_https_client_->Read("google.com", ""));
 }
 
 }

@@ -5,24 +5,17 @@
 #ifndef HTTP_READER_MOEXREADER_H
 #define HTTP_READER_MOEXREADER_H
 
-
-#include <Base/IClientHttp.h>
 #include <memory>
+#include <src/http/HttpClient.h>
 
 class MoexReader {
-public:
-	MoexReader(bool tls = false);
-	~MoexReader();
-	
-    bool ReadSome();
-    
-    void SetTls(bool tls = true);
-    bool UsingTls() const noexcept;
-    
-private:
-	std::shared_ptr<IClientHttp> _reader;
-	bool _tls;
-};
+ public:
+  MoexReader();
+  ~MoexReader();
 
+  bool GetInfo();
+ private:
+  http::HttpClient _reader;
+};
 
 #endif //HTTP_READER_MOEXREADER_H

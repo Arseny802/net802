@@ -39,7 +39,7 @@ class BaseHttp : public IClientHttp {
   /// \param url url to read
   /// \param app command, like "/app/request"
   /// \return Custom status code
-  HttpResultCodes StartReadingProcess(std::string_view url, std::string_view app);
+  codes::HttpResultCodes StartReadingProcess(std::string_view url, std::string_view app);
   /// Form the request. We specify the "Connection: close" header so that
   /// the server will close the socket after transmitting the response.
   /// This will allow us to treat all data up until the EOF as the content.

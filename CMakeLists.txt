@@ -5,14 +5,14 @@ message("##########################")
 
 # base settings for cmake
 cmake_minimum_required(VERSION 3.3)
-set(PROJECT_TARGET_NAME network_modules)
-project(${PROJECT_TARGET_NAME} CXX C)
+set(SOLUTION_NAME net802)
+project(${SOLUTION_NAME} CXX C)
 
 # temporary global linking
 set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS}")
 set(CMAKE_CXX_STANDARD 17)
 
-message("Set PROJECT_TARGET_NAME: ${PROJECT_TARGET_NAME}")
+message("Set SOLUTION_NAME: ${SOLUTION_NAME}")
 message("Set CMAKE_LINKER_FLAGS: ${CMAKE_LINKER_FLAGS}")
 message("Set CMAKE_CXX_STANDARD: 17")
 message("")
@@ -75,9 +75,9 @@ add_subdirectory(${fmt_path})
 include_directories(${fmt_path}/include)
 message("fmt loaded.")
 
-# Include fmt project for string formatting.
+# Include spdlog project for logging.
 set(spdlog_path "${third_party_dir}/spdlog")
-message("Loading fmt from '${spdlog_path}'...")
+message("Loading spdlog from '${spdlog_path}'...")
 add_subdirectory(${spdlog_path})
 include_directories(${spdlog_path}/include)
 message("spdlog loaded.")
@@ -102,7 +102,10 @@ message("#############################")
 message("########## SOURCES ##########")
 message("#############################")
 # base libs
-add_subdirectory(src/BaseHttp)
+add_subdirectory(src/http)
+#add_subdirectory(src/ftp)
+#add_subdirectory(src/telnet)
+#add_subdirectory(src/ssh)
 add_subdirectory(src/moex)
 
 # tests files
@@ -110,7 +113,7 @@ add_subdirectory(tests EXCLUDE_FROM_ALL)
 
 # enable testing
 enable_testing()
-set(PROJECT_TESTS ${CMAKE_PROJECT_NAME}_tests)
+set(PROJECT_TESTS ${CMAKE_PROJECT_NAME}.tests)
 add_test(tests/${PROJECT_TESTS} tests/${PROJECT_TESTS})
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
 add_dependencies(check ${PROJECT_TESTS})
@@ -122,15 +125,15 @@ message("###### OS DEPENDENCIES ######")
 message("#############################")
 if (WIN32) # building on windows
     message(STATUS "Cmake build for windows")
-    add_subdirectory(src/Console)
+    add_subdirectory(src/console)
     #add_subdirectory(win__special_sources)
 elseif (MSVC) # building on visual c++
     message(STATUS "Cmake build for visual c++")
-    add_subdirectory(src/Console)
+    add_subdirectory(src/console)
     #add_subdirectory(win_msvc__special_sources)
 elseif (UNIX) # building on unix (mac, linux)
     message(STATUS "Cmake build for unix")
-    add_subdirectory(src/Console)
+    add_subdirectory(src/console)
     #add_subdirectory(unix__special_sources)
 endif (WIN32)
 message("")
