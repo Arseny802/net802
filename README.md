@@ -1,2 +1,2 @@
 # network_modules
-Network client, supporting HTTP, HTTPS protocols. Is planned to support FPT, FTPS, SFTP, TELNET and SSH.
+Network client, supporting HTTP, HTTPS protocols. Is planned to support FPT, FTPS, SFTP, HTTP, HTTPS.
